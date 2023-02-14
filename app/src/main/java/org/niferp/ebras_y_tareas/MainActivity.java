@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,50 @@ public class MainActivity extends AppCompatActivity {
     static TextView tv;
     static Thread hilo;
 
+    private final long NUM_PRIMOS=1000000000;
+
+    class CalcularPrimos extends AsyncTask<Void,Void,Long> {
+
+        public void mostrarResultado(int id, long resultado){
+           /* Log.i("PMDM","Comienzo el calculo");
+            long resultado = cuantosPrimos(i);
+            Log.i("PMDM",'('+id+",Numero de primos: "+resultado);
+*/
+            tv.setText("RES: "+id+resultado);
+        }
+
+        public  boolean esPrimo(long i) {
+            if (i == 1) return false;
+            if (i < 4) return true;
+            if ((i % 2) == 0 || (i % 3) == 0) return false;
+            if (i < 9) return true;
+            long n = 5;
+            while (n*n <= i && i % n != 0 && i % (n + 2) != 0)
+                n += 6;
+            return (n*n > i);
+        }
+
+
+        private long cuantosPrimos(int limite) {
+            long result=0;
+            for (long i=0; i <= limite; i++){
+                if( esPrimo(i))
+                    result++;
+                return result;
+            }
+            return result;
+        }
+
+        @Override
+        protected Long doInBackground(Void... voids) {
+            return cuantosPrimos((int) NUM_PRIMOS);
+        }
+        @Override
+        protected void onPostExecute(Long res) {
+            mostrarResultado(1,res);
+        }
+    }
+/*------------------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,41 +79,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pulsoB2(View view) {
-        Thread h = new Thread(()-> calcularPrimos(1,100000000));
-        h.start();
-        Thread h2 = new Thread(()-> calcularPrimos(2,100000000*10));
-        h2.start();
-        Thread h3 = new Thread(()-> calcularPrimos(3,00100000000/10));
-        h3.start();
+        //forma 2:
+        CalcularPrimos cp= new CalcularPrimos();
+        cp.execute();
+
+        //forma 1:
+        /*Thread h = new Thread(()-> calcularPrimos(1,NUM_PRIMOS));
+        h.start();*/
     }
 
-    private void calcularPrimos(int id, int i) {
-        Log.i("PMDM","Comienzo el calculo");
-        long resultado = cuantosPrimos(i);
-        Log.i("PMDM",'('+id+",Numero de primos: "+resultado);
-        tv.setText("RES: "+id+resultado);
-    }
 
-    private long cuantosPrimos(int limite) {
-        long result=0;
-        for (long i=0; i <= limite; i++){
-            if( esPrimo(i))
-                result++;
-            return result;
-        }
-        return result;
-    }
-
-    public static boolean esPrimo(long i) {
-        if (i == 1) return false;
-        if (i < 4) return true;
-        if ((i % 2) == 0 || (i % 3) == 0) return false;
-        if (i < 9) return true;
-        long n = 5;
-        while (n*n <= i && i % n != 0 && i % (n + 2) != 0)
-            n += 6;
-        return (n*n > i);
-    }
 
 
     /*    public void pulsoB2(View view) {
