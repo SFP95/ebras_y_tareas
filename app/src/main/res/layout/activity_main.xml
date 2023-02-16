@@ -51,10 +51,12 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="259dp" />
 
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="148dp"
-        android:layout_height="48dp"
+    <EditText
+        android:id="@+id/edNumCeros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

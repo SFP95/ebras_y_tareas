@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final long NUM_PRIMOS=1000000000;
 
-    class CalcularPrimos extends AsyncTask<Void,Void,Long> {
+    class CalcularPrimos extends AsyncTask<Long,Void,Long> {
 
         public void mostrarResultado(String mensaje){
            /* Log.i("PMDM","Comienzo el calculo");
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        private long cuantosPrimos(int limite) {
+        private long cuantosPrimos(long limite) {
             long result=0;
             for (long i=0; i <= limite; i++){
                 if( esPrimo(i))
@@ -60,16 +61,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Long doInBackground(Void... voids) {
-            return cuantosPrimos((int) NUM_PRIMOS);
+        protected Long doInBackground(Long... parametros) {
+            long limite= parametros[0];
+            Log.i("PMDMD","Calculando numa. primero entre 1 y "+ limite)
+            return cuantosPrimos(limite);
         }
         @Override
         protected void onPostExecute(Long res) {
+            Log.i("PMDM","Resultado Final: "+ res+ "primos");
             mostrarResultado("ToTAl: "+ res);
         }
 
         @Override
         protected void onCancelled(Long resultado) {
+            Log.i("PMPDM","Resultado parcial: "+resultado+"primos");
             mostrarResultado("CANCELADO: resultado parcial -> "+resultado);
         }
     }
@@ -92,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
     public void onLanzarCancelar(View v) {
 
         //EJERCICIO 10.2
-
+        EditText edNumCeros= findViewById(R.id.edNumCeros);
         Button b= (Button) v;
         switch (b.getText().toString().toLowerCase()){
             case "lanzar:":
                 b.setText("Cancelar");
                 cp= new CalcularPrimos();
-                cp.execute();
+                cp.execute(calcularLimitePrimos(edNumCeros.getText().toString()));
                 break;
             case "cancalar":
                 b.setText("Lanzar");
@@ -114,6 +119,17 @@ public class MainActivity extends AppCompatActivity {
         //forma 1:
         Thread h = new Thread(()-> calcularPrimos(1,NUM_PRIMOS));
         h.start();*/
+    }
+
+    private Long calcularLimitePrimos(String numCerosString) {
+        long res = 1L;
+        int numCeros = Integer.parseInt(numCerosString);
+        int i = 1;
+        while(i <= numCeros){
+            res += 10;
+            i++;
+        }
+        return res;
     }
 
     /*    public void pulsoB2(View view) {
