@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +23,11 @@ public class MainActivity extends AppCompatActivity {
     static TextView tv;
     static Thread hilo;
     private CalcularPrimos cp;
+    private  int _progreso;
 
     private final long NUM_PRIMOS=1000000000;
 
-    class CalcularPrimos extends AsyncTask<Long,Void,Long> {
+    class CalcularPrimos extends AsyncTask<Long,Integer,Long> {
 
         public void mostrarResultado(String mensaje){
            /* Log.i("PMDM","Comienzo el calculo");
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
             for (long i=0; i <= limite; i++){
                 if( esPrimo(i))
                     ++result;
+                if (cambioEnElProgreso()){
+                    publishProgress( porcentageProgreso());
+                }
                 if (isCancelled()){ //comprobación de la cancelacion
                     return  result;
                 }
@@ -60,10 +65,23 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
 
+        private Integer porcentageProgreso() {
+            return 0;
+        }
+
+        private boolean cambioEnElProgreso( ) {
+            return false;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progreso) {
+            _progreso = progreso[0];
+        }
+
         @Override
         protected Long doInBackground(Long... parametros) {
             long limite= parametros[0];
-            Log.i("PMDMD","Calculando numa. primero entre 1 y "+ limite)
+            Log.i("PMDMD","Calculando numa. primero entre 1 y "+ limite);
             return cuantosPrimos(limite);
         }
         @Override
@@ -95,17 +113,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLanzarCancelar(View v) {
+        ProgressBar pb= findViewById(R.id.pbProgreso);
 
         //EJERCICIO 10.2
         EditText edNumCeros= findViewById(R.id.edNumCeros);
         Button b= (Button) v;
         switch (b.getText().toString().toLowerCase()){
             case "lanzar:":
+                _progreso=0;
                 b.setText("Cancelar");
+                pb.setVisibility(View.VISIBLE);
                 cp= new CalcularPrimos();
                 cp.execute(calcularLimitePrimos(edNumCeros.getText().toString()));
                 break;
             case "cancalar":
+                pb.setVisibility(View.INVISIBLE);
                 b.setText("Lanzar");
                 //Cancelar opracion
                 cp.cancel(true);

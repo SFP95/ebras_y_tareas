@@ -15,19 +15,20 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.358" />
 
     <Button
         android:id="@+id/b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="64dp"
         android:onClick="onMensaje"
         android:text="Mensaje"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.192"
+        app:layout_constraintVertical_bias="0.072"
         tools:ignore="OnClick" />
 
     <Button
@@ -38,10 +39,10 @@
         android:text="Lanzar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toEndOf="@+id/b1"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.193"
+        app:layout_constraintVertical_bias="0.071"
         tools:ignore="OnClick" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -49,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="259dp" />
+        app:layout_constraintGuide_begin="187dp" />
 
     <EditText
         android:id="@+id/edNumCeros"
@@ -60,6 +61,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.781" />
+
+    <ProgressBar
+        android:id="@+id/pbProgreso"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="265dp"
+        android:layout_height="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/edNumCeros"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b2"
+        android:max="100"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
