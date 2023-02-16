@@ -26,12 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
     class CalcularPrimos extends AsyncTask<Void,Void,Long> {
 
-        public void mostrarResultado(int id, long resultado){
+        public void mostrarResultado(String mensaje){
            /* Log.i("PMDM","Comienzo el calculo");
             long resultado = cuantosPrimos(i);
             Log.i("PMDM",'('+id+",Numero de primos: "+resultado);
 */
-            tv.setText("RES: "+id+resultado);
+            tv.setText(mensaje);
         }
 
         public  boolean esPrimo(long i) {
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
             for (long i=0; i <= limite; i++){
                 if( esPrimo(i))
                     ++result;
+                if (isCancelled()){ //comprobación de la cancelacion
+                    return  result;
+                }
                 return result;
             }
             return result;
@@ -62,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Long res) {
-            mostrarResultado(1,res);
+            mostrarResultado("ToTAl: "+ res);
+        }
+
+        @Override
+        protected void onCancelled(Long resultado) {
+            mostrarResultado("CANCELADO: resultado parcial -> "+resultado);
         }
     }
 /*------------------------------------------------------------------*/
@@ -97,17 +105,16 @@ public class MainActivity extends AppCompatActivity {
                 //Cancelar opracion
                 cp.cancel(true);
         }
-
+/*//*
         //EJERCICIO 10.1  (onLanzar)
-        /*//forma 2:
+        //forma 2:
         CalcularPrimos cp= new CalcularPrimos();
-        cp.execute();*/
+        cp.execute();
 
         //forma 1:
-        /*Thread h = new Thread(()-> calcularPrimos(1,NUM_PRIMOS));
+        Thread h = new Thread(()-> calcularPrimos(1,NUM_PRIMOS));
         h.start();*/
     }
-
 
     /*    public void pulsoB2(View view) {
         //bucleInfinito();

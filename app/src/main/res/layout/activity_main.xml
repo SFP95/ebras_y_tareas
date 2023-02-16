@@ -10,7 +10,6 @@
         android:id="@+id/textView"
         android:layout_width="286dp"
         android:layout_height="89dp"
-        android:hint="HOLA"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -22,12 +21,13 @@
         android:id="@+id/b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="68dp"
         android:onClick="onMensaje"
-        android:text="B1"
+        android:text="Mensaje"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.192"
         tools:ignore="OnClick" />
 
     <Button
@@ -38,9 +38,10 @@
         android:text="Lanzar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toEndOf="@+id/b1"
         app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.193"
         tools:ignore="OnClick" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -49,5 +50,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="259dp" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="148dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
