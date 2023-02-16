@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     static Button b1;
     static Button b2;
     static TextView tv;
     static Thread hilo;
+    private CalcularPrimos cp;
 
     private final long NUM_PRIMOS=1000000000;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             long result=0;
             for (long i=0; i <= limite; i++){
                 if( esPrimo(i))
-                    result++;
+                    ++result;
                 return result;
             }
             return result;
@@ -74,21 +77,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void pulsoB1(View view) {
+    public void onMensaje(View v) {
         Toast.makeText(this,"MENSAJE -->>!!",Toast.LENGTH_SHORT).show();
     }
 
-    public void pulsoB2(View view) {
-        //forma 2:
+    public void onLanzarCancelar(View v) {
+
+        //EJERCICIO 10.2
+
+        Button b= (Button) v;
+        switch (b.getText().toString().toLowerCase()){
+            case "lanzar:":
+                b.setText("Cancelar");
+                cp= new CalcularPrimos();
+                cp.execute();
+                break;
+            case "cancalar":
+                b.setText("Lanzar");
+                //Cancelar opracion
+                cp.cancel(true);
+        }
+
+        //EJERCICIO 10.1  (onLanzar)
+        /*//forma 2:
         CalcularPrimos cp= new CalcularPrimos();
-        cp.execute();
+        cp.execute();*/
 
         //forma 1:
         /*Thread h = new Thread(()-> calcularPrimos(1,NUM_PRIMOS));
         h.start();*/
     }
-
-
 
 
     /*    public void pulsoB2(View view) {
@@ -125,9 +143,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }*/
-
-
-
    /* public static long cuantosPrimos(long limite) {
         long result = 0;
         for (long i = 1; i <= limite; ++i)
@@ -135,6 +150,4 @@ public class MainActivity extends AppCompatActivity {
                 ++result;
         return result;
     }*/
-
-
 }
