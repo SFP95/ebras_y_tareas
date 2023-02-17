@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Long res) {
             Log.i("PMDM","Resultado Final: "+ res+ "primos");
             mostrarResultado("ToTAl: "+ res);
+            ProgressBar pb = findViewById(R.id.pbProgreso);
+            pb.setVisibility(View.INVISIBLE);
+            Button blanzarCancelar=findViewById(R.id.b1);
+            blanzarCancelar.setText("Lanzar");
         }
 
         @Override
