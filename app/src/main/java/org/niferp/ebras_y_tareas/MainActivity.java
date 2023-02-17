@@ -23,9 +23,8 @@ public class MainActivity extends AppCompatActivity {
     static TextView tv;
     static Thread hilo;
     private CalcularPrimos cp;
-    private  int _progreso;
-
-    private final long NUM_PRIMOS=1000000000;
+    //private  int _progreso;
+    //private final long NUM_PRIMOS=1000000000;
 
     class CalcularPrimos extends AsyncTask<Long,Integer,Long> {
 
@@ -48,34 +47,43 @@ public class MainActivity extends AppCompatActivity {
             return (n*n > i);
         }
 
-
         private long cuantosPrimos(long limite) {
             long result=0;
+            int progresoAnterior=-1;
             for (long i=0; i <= limite; i++){
                 if( esPrimo(i))
                     ++result;
-                if (cambioEnElProgreso()){
-                    publishProgress( porcentageProgreso());
+                if (cambioEnElProgreso(progresoAnterior,i,limite)){
+                    progresoAnterior= porcentageProgreso(i,limite);
+                    publishProgress( progresoAnterior);
                 }
                 if (isCancelled()){ //comprobación de la cancelacion
                     return  result;
                 }
-                return result;
             }
             return result;
         }
 
-        private Integer porcentageProgreso() {
-            return 0;
+        private boolean cambioEnElProgreso(int progresoAnterior, long i, long limite) {
+            boolean resultado = false;
+            int tamSegmento = (int) (limite / 100);
+
+            if (progresoAnterior != i / tamSegmento){
+                resultado= true;
+            }
+            return  resultado;
         }
 
-        private boolean cambioEnElProgreso( ) {
-            return false;
+        private Integer porcentageProgreso(long i, long limite) {
+            int tamSegmento =  (int) limite / 100;
+            return (int)(i / tamSegmento);
         }
 
         @Override
         protected void onProgressUpdate(Integer... progreso) {
-            _progreso = progreso[0];
+            //_proceso=progreso[0];
+            ProgressBar pb = findViewById(R.id.pbProgreso);
+            pb.setProgress(progreso[0]);
         }
 
         @Override
@@ -84,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("PMDMD","Calculando numa. primero entre 1 y "+ limite);
             return cuantosPrimos(limite);
         }
+
         @Override
         protected void onPostExecute(Long res) {
             Log.i("PMDM","Resultado Final: "+ res+ "primos");
@@ -96,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
             mostrarResultado("CANCELADO: resultado parcial -> "+resultado);
         }
     }
+
 /*------------------------------------------------------------------*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         Button b= (Button) v;
         switch (b.getText().toString().toLowerCase()){
             case "lanzar:":
-                _progreso=0;
+                //_progreso=0;
                 b.setText("Cancelar");
                 pb.setVisibility(View.VISIBLE);
                 cp= new CalcularPrimos();
